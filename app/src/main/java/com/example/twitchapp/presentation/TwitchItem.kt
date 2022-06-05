@@ -1,0 +1,43 @@
+package com.example.twitchapp.presentation
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.example.twitchapp.models.TestModel
+
+@Composable
+fun TwitchItem(model: TestModel) {
+//    Row(
+//        modifier = Modifier
+//            .background(Color.LightGray)
+//            .fillMaxWidth()
+//            .padding(24.dp)
+//    ) {
+//        Text(
+//            text = model.text,
+//            color = Color.Black,
+//            fontWeight = FontWeight.Bold
+//        )
+//    }
+
+    Card(
+        shape = RoundedCornerShape(6.dp),
+        backgroundColor = Color.LightGray
+    ) {
+        Text(
+            text = model.text,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        )
+    }
+}
