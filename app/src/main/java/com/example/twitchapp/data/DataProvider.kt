@@ -2,10 +2,11 @@ package com.example.twitchapp.data
 
 import com.example.twitchapp.models.GameModelResponse
 import com.example.twitchapp.models.TokenModelResponse
+import retrofit2.Response
 
 interface DataProvider {
 
-    fun getAccessToken(): TokenModelResponse
+    suspend fun getAccessToken(): Response<TokenModelResponse>
 
-    fun getTopGames(): GameModelResponse
+    suspend fun getTopGames(accessToken: String): Response<GameModelResponse>
 }
