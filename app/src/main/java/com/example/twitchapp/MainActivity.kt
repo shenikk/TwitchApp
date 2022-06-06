@@ -13,28 +13,59 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.twitchapp.data.DataProvider
+import com.example.twitchapp.data.DataProviderImpl
+import com.example.twitchapp.data.DataRepository
+import com.example.twitchapp.data.NetworkLayer
+import com.example.twitchapp.domain.TwitchInteractor
+import com.example.twitchapp.models.Game
+import com.example.twitchapp.models.GameModelResponse
 import com.example.twitchapp.models.TestModel
 import com.example.twitchapp.presentation.TwitchItem
+import com.example.twitchapp.presentation.viewmodel.TwitchViewModel
 import com.example.twitchapp.ui.theme.TwitchAppTheme
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var viewModel: TwitchViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initViewModel()
+        viewModel.getTopGames()
+
         setContent {
             TwitchAppTheme {
-                ComposeList(listItems = listOf(
-                    TestModel("1 line"),
-                    TestModel("2 lines"),
-                    TestModel("3 lines")
-                ))
+                val games = viewModel.games.value
+
+                if (games != null) {
+                    ComposeList(listItems = games)
+                }
             }
         }
+    }
+
+    private fun initViewModel() {
+//        viewModel = ViewModelProvider(this).get(TwitchViewModel::class.java)
+
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
+                val dataRepository = DataRepository()
+                val interactor = TwitchInteractor(dataRepository)
+
+                return TwitchViewModel(interactor) as T
+            }
+        }).get(TwitchViewModel::class.java)
     }
 }
 
 @Composable
 fun ComposeList(
-    listItems: List<TestModel>
+    listItems: List<Game>
 ) {
     LazyColumn(
         contentPadding = PaddingValues(all = 8.dp),

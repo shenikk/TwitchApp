@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.twitchapp.models.Game
 import com.example.twitchapp.models.TestModel
 
 @Composable
-fun TwitchItem(model: TestModel) {
+fun TwitchItem(model: Game) {
 //    Row(
 //        modifier = Modifier
 //            .background(Color.LightGray)
@@ -32,7 +33,7 @@ fun TwitchItem(model: TestModel) {
         backgroundColor = Color.LightGray
     ) {
         Text(
-            text = model.text,
+            text = model.name,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
