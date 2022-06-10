@@ -15,14 +15,14 @@ object NetworkLayer {
 
     val tokenRetrofit = Retrofit.Builder()
         .baseUrl("https://id.twitch.tv/")
-        .addCallAdapterFactory(CoroutineCallAdapterFactory()) // ?
         .addConverterFactory(MoshiConverterFactory.create(moshi))
+//        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val gameRetrofit = Retrofit.Builder()
         .baseUrl("https://api.twitch.tv/")
-        .addCallAdapterFactory(CoroutineCallAdapterFactory()) // ?
         .addConverterFactory(MoshiConverterFactory.create(moshi))
+//        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val tokenApi: TokenApiInterface by lazy {

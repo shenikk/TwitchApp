@@ -49,8 +49,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initViewModel() {
-//        viewModel = ViewModelProvider(this).get(TwitchViewModel::class.java)
-
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 

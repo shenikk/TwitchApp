@@ -13,39 +13,26 @@ class TwitchViewModel(
     private val interactor: TwitchInteractor
 ) : ViewModel() {
 
-//    private val _gamesLiveData = MutableLiveData<GameModelResponse>()
-//    val gamesLiveData: LiveData<GameModelResponse> = _gamesLiveData
-
     val games: MutableState<List<Game>?> = mutableStateOf(listOf())
-
-
-    val tokens: MutableState<List<String>?> = mutableStateOf(listOf())
-
     // TODO add errorLiveData and refreshLiveData
 
     fun getTopGames() {
-//        viewModelScope.async {
-//            val response = interactor.getTopGames()?.data
+//        viewModelScope.launch {
+//            val token = async {
+//                interactor.getToken()
+//            }.await()
 //
-//            games.value = response
+//            async {
+//                val response = token?.token?.let { interactor.getTopGames(it) }
+//                games.value = response?.data
+//            }
 //        }
-
 
         viewModelScope.launch {
-            val token = async {
-                interactor.getToken()
-            }.await()
+            val token = interactor.getToken()
 
-            async {
-                val response = token?.token?.let { interactor.getTopGames(it) }
-                games.value = response?.data
-            }
+            val response = token?.token?.let { interactor.getTopGames(it) }
+            games.value = response?.data
         }
-
-
-//        viewModelScope.launch {
-//            val token = interactor.getToken()
-//            tokens.value = listOf(listOf(token?.token).toString())
-//        }
     }
 }

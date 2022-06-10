@@ -1,18 +1,19 @@
 package com.example.twitchapp.models
 
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class GameModelResponse(
-    @SerializedName("data") val data: List<Game>,
-    @SerializedName("pagination") val pagination: Cursor
+    @Json(name = "data") val data: List<Game>,
+    @Json(name = "pagination") val pagination: Cursor
 )
 
 data class Game(
-    @SerializedName("id") val id: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("box_art_url") val image: String
+    @Json(name = "id") val id: String,
+    @Json(name = "name") val name: String,
+    @Json(name = "box_art_url") val image: String
 )
 
 data class Cursor(
-    @SerializedName("cursor") val cursor: String
+    @Json(name = "cursor") val cursor: String
 )
