@@ -9,6 +9,6 @@ interface GamesApiInterface {
     @GET("helix/games/top")
     suspend fun getGames(
         @Header("Authorization") authorization: String,
-        @Header("Client_id") clientId: String,
+        @Header("Client-Id") clientId: String,
     ) : Response<GameModelResponse>
 }

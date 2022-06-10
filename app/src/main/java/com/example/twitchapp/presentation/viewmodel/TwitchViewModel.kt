@@ -17,21 +17,10 @@ class TwitchViewModel(
     // TODO add errorLiveData and refreshLiveData
 
     fun getTopGames() {
-//        viewModelScope.launch {
-//            val token = async {
-//                interactor.getToken()
-//            }.await()
-//
-//            async {
-//                val response = token?.token?.let { interactor.getTopGames(it) }
-//                games.value = response?.data
-//            }
-//        }
-
         viewModelScope.launch {
-            val token = interactor.getToken()
+            val token = interactor.getToken()?.token
 
-            val response = token?.token?.let { interactor.getTopGames(it) }
+            val response = token?.let { interactor.getTopGames(it) }
             games.value = response?.data
         }
     }

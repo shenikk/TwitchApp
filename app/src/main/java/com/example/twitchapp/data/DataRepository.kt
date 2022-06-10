@@ -8,25 +8,8 @@ import kotlin.coroutines.coroutineContext
 
 class DataRepository {
 
-//    suspend fun getTopGames(): GameModelResponse? {
-//        val token = CoroutineScope().async {
-//            NetworkLayer.apiClient.getAccessToken()
-//        }.await()
-////        val token = NetworkLayer.apiClient.getAccessToken()
-//
-//
-//        return if (token.isSuccessful) {
-//            token.body()?.token?.let { NetworkLayer.apiClient.getTopGames(it) }?.body()
-//        } else {
-//            null
-//        }
-//    }
+    suspend fun getToken(): TokenModelResponse? = NetworkLayer.apiClient.getAccessToken().body()
 
-    suspend fun getToken(): TokenModelResponse? {
-        return NetworkLayer.apiClient.getAccessToken().body()
-    }
-
-    suspend fun getTopGames(token: String): GameModelResponse? {
-       return NetworkLayer.apiClient.getTopGames(token).body()
-    }
+    suspend fun getTopGames(token: String): GameModelResponse? =
+        NetworkLayer.apiClient.getTopGames(token).body()
 }
