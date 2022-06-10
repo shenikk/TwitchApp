@@ -7,22 +7,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.twitchapp.data.DataProvider
-import com.example.twitchapp.data.DataProviderImpl
 import com.example.twitchapp.data.DataRepository
-import com.example.twitchapp.data.NetworkLayer
 import com.example.twitchapp.domain.TwitchInteractor
 import com.example.twitchapp.models.Game
-import com.example.twitchapp.models.GameModelResponse
-import com.example.twitchapp.models.TestModel
+import com.example.twitchapp.presentation.CircularInderterminateProgressBar
 import com.example.twitchapp.presentation.TwitchItem
 import com.example.twitchapp.presentation.viewmodel.TwitchViewModel
 import com.example.twitchapp.ui.theme.TwitchAppTheme
@@ -40,7 +32,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             TwitchAppTheme {
                 val games = viewModel.games.value
+                val loading = viewModel.loading.value
 
+                CircularInderterminateProgressBar(loading)
                 if (games != null) {
                     ComposeList(listItems = games)
                 }

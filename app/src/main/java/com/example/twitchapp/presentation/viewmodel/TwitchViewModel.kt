@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.twitchapp.domain.TwitchInteractor
 import com.example.twitchapp.models.Game
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class TwitchViewModel(
@@ -14,14 +13,16 @@ class TwitchViewModel(
 ) : ViewModel() {
 
     val games: MutableState<List<Game>?> = mutableStateOf(listOf())
-    // TODO add errorLiveData and refreshLiveData
+    val loading = mutableStateOf(false)
 
     fun getTopGames() {
         viewModelScope.launch {
+            loading.value = true
             val token = interactor.getToken()?.token
 
             val response = token?.let { interactor.getTopGames(it) }
             games.value = response?.data
+            loading.value = false
         }
     }
 }
