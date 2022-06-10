@@ -2,9 +2,6 @@ package com.example.twitchapp.data
 
 import com.example.twitchapp.models.GameModelResponse
 import com.example.twitchapp.models.TokenModelResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
-import kotlin.coroutines.coroutineContext
 
 class DataRepository {
 
