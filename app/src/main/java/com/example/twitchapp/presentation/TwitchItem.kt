@@ -1,5 +1,7 @@
 package com.example.twitchapp.presentation
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.twitchapp.models.Game
+import com.example.twitchapp.presentation.viewmodel.GlidePicture
 
 @Composable
 fun TwitchItem(model: Game) {
@@ -18,13 +21,22 @@ fun TwitchItem(model: Game) {
         shape = RoundedCornerShape(6.dp),
         backgroundColor = Color.LightGray
     ) {
-        Text(
-            text = model.name,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
+        Row(modifier = Modifier.padding(8.dp)) {
+            GlidePicture(url = model.image).value?.let {
+                Image(
+                    bitmap = it,
+                    contentDescription = null
+                )
+            }
+
+            Text(
+                text = model.name,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+        }
     }
 }
