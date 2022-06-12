@@ -71,7 +71,7 @@ fun ComposeList(
         items(listItems) { item ->
             TwitchItem(
                 model = item,
-                onClick = { navController.navigate(Screen.DetailScreen.route) }
+                onClick = { navController.navigate(Screen.DetailScreen.withArgs(item.name)) }
             )
         }
     }
