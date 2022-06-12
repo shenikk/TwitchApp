@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.twitchapp.models.Game
-import com.example.twitchapp.presentation.viewmodel.GlidePicture
 
 @Composable
 fun TwitchItem(model: Game, onClick: () -> Unit) {
@@ -24,7 +22,7 @@ fun TwitchItem(model: Game, onClick: () -> Unit) {
         backgroundColor = Color.LightGray
     ) {
         Row(modifier = Modifier.padding(8.dp).clickable { onClick.invoke() }) {
-            GlidePicture(url = model.image).value?.let {
+            GlideImage(url = model.image).value?.let {
                 Image(
                     bitmap = it,
                     contentDescription = null
