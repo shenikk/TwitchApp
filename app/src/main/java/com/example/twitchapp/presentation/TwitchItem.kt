@@ -1,9 +1,11 @@
 package com.example.twitchapp.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -16,12 +18,12 @@ import com.example.twitchapp.models.Game
 import com.example.twitchapp.presentation.viewmodel.GlidePicture
 
 @Composable
-fun TwitchItem(model: Game) {
+fun TwitchItem(model: Game, onClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(6.dp),
         backgroundColor = Color.LightGray
     ) {
-        Row(modifier = Modifier.padding(8.dp)) {
+        Row(modifier = Modifier.padding(8.dp).clickable { onClick.invoke() }) {
             GlidePicture(url = model.image).value?.let {
                 Image(
                     bitmap = it,
