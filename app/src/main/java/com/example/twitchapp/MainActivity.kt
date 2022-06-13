@@ -29,19 +29,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         initViewModel()
-        viewModel.getTopGames()
+//        viewModel.getTopGames()
 
         setContent {
             TwitchAppTheme {
-                val games = viewModel.games.value
-                val loading = viewModel.loading.value
+//                val games = viewModel.games.value
+//                val loading = viewModel.loading.value
 
 //                CircularInderterminateProgressBar(loading)
 //                if (games != null) {
 //                    ComposeList(listItems = games)
 //                }
 
-                Navigation(games = games, loading = loading)
+                Navigation(viewModel = viewModel)
             }
         }
     }
@@ -71,7 +71,7 @@ fun ComposeList(
         items(listItems) { item ->
             TwitchItem(
                 model = item,
-                onClick = { navController.navigate(Screen.DetailScreen.withArgs(item.name)) }
+                onClick = { navController.navigate(Screen.DetailScreen.withArgs(item.name, item.id)) }
             )
         }
     }

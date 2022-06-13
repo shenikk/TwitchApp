@@ -2,11 +2,13 @@ package com.example.twitchapp.data
 
 import com.example.twitchapp.models.GameModelResponse
 import com.example.twitchapp.models.TokenModelResponse
+import com.example.twitchapp.models.VideoResponse
 import retrofit2.Response
 
 class DataProviderImpl(
     private val api: TokenApiInterface,
-    private val gameApi: GamesApiInterface
+    private val gameApi: GamesApiInterface,
+    private val videoApi: VideosApiInterface
 ) : DataProvider {
 
     override suspend fun getAccessToken(): Response<TokenModelResponse> {
@@ -21,6 +23,14 @@ class DataProviderImpl(
         return gameApi.getGames(
             "Bearer $accessToken",
             CLIENT_ID
+        )
+    }
+
+    override suspend fun getVideos(accessToken: String, gamesId: Long): Response<VideoResponse> {
+        return  videoApi.getVideos(
+            "Bearer $accessToken",
+            CLIENT_ID,
+            gamesId
         )
     }
 

@@ -9,4 +9,7 @@ class TwitchInteractor(
     suspend fun getToken() = repository.getToken()
 
     suspend fun getTopGames(token: String) = repository.getTopGames(token)
+
+    suspend fun getVideos(accessToken: String, gamesId: Long) =
+        repository.getVideos(accessToken, gamesId)
 }

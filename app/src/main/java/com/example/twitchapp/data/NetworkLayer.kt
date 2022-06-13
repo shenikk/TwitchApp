@@ -21,6 +21,11 @@ object NetworkLayer {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
+    val videoRetrofit = Retrofit.Builder()
+        .baseUrl("https://api.twitch.tv/")
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .build()
+
     val tokenApi: TokenApiInterface by lazy {
         tokenRetrofit.create(TokenApiInterface::class.java)
     }
@@ -29,5 +34,9 @@ object NetworkLayer {
         gameRetrofit.create(GamesApiInterface::class.java)
     }
 
-    val apiClient = DataProviderImpl(tokenApi, gameApi)
+    val videoApi: VideosApiInterface by lazy {
+        videoRetrofit.create(VideosApiInterface::class.java)
+    }
+
+    val apiClient = DataProviderImpl(tokenApi, gameApi, videoApi)
 }
