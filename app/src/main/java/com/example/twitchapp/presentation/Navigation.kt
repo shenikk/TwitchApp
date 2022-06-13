@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -24,15 +25,14 @@ import com.example.twitchapp.models.VideoModel
 import com.example.twitchapp.presentation.viewmodel.TwitchViewModel
 
 @Composable
-fun Navigation(viewModel: TwitchViewModel) {
+fun Navigation() {
     val nav = rememberNavController()
+    // FIXME do it in a proper way
+    val viewModel: TwitchViewModel = viewModel()
 
     NavHost(navController = nav, startDestination = Screen.MainScreen.route) {
         composable(route = Screen.MainScreen.route) {
-            MainScreen(
-                navController = nav,
-                viewModel = viewModel
-            )
+            MainScreen(navController = nav, viewModel = viewModel)
         }
         composable(
             route = Screen.DetailScreen.route + "/{name}/{gameId}",
@@ -48,10 +48,10 @@ fun Navigation(viewModel: TwitchViewModel) {
                     nullable = false
                 }
             )
-        ) { entry ->
+        ) { backStackEntry ->
             DetailScreen(
-                name = entry.arguments?.getString("name"),
-                gameId = entry.arguments?.getLong("gameId"),
+                name = backStackEntry.arguments?.getString("name"),
+                gameId = backStackEntry.arguments?.getLong("gameId"),
                 viewModel = viewModel
             )
         }
@@ -74,7 +74,11 @@ fun MainScreen(navController: NavController, viewModel: TwitchViewModel) {
 }
 
 @Composable
-fun DetailScreen(name: String?, gameId: Long?, viewModel: TwitchViewModel) {
+fun DetailScreen(
+    name: String?,
+    gameId: Long?,
+    viewModel: TwitchViewModel
+) {
     val context = LocalContext.current
     LaunchedEffect(context) {
         viewModel.accessToken.value?.let {

@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initViewModel()
+//        initViewModel()
 //        viewModel.getTopGames()
 
         setContent {
@@ -41,22 +41,23 @@ class MainActivity : ComponentActivity() {
 //                    ComposeList(listItems = games)
 //                }
 
-                Navigation(viewModel = viewModel)
+//                Navigation(viewModel = viewModel)
+                Navigation()
             }
         }
     }
 
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
-                val dataRepository = DataRepository()
-                val interactor = TwitchInteractor(dataRepository)
-
-                return TwitchViewModel(interactor) as T
-            }
-        }).get(TwitchViewModel::class.java)
-    }
+//    private fun initViewModel() {
+//        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+//            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//
+//                val dataRepository = DataRepository()
+//                val interactor = TwitchInteractor(dataRepository)
+//
+//                return TwitchViewModel(interactor) as T
+//            }
+//        }).get(TwitchViewModel::class.java)
+//    }
 }
 
 @Composable
