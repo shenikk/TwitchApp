@@ -33,7 +33,7 @@ class TwitchViewModel : ViewModel() {
             games.value = response?.data
 
             // get videos for the first top game
-            if (token!= null) {
+            if (token != null) {
                 games.value?.first()?.id?.toLong()?.let { getVideos(token, it) }
             }
 

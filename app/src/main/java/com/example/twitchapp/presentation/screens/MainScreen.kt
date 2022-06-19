@@ -19,8 +19,11 @@ import androidx.navigation.NavController
 import com.example.twitchapp.models.Game
 import com.example.twitchapp.models.VideoModel
 import com.example.twitchapp.presentation.CircularInderterminateProgressBar
+import com.example.twitchapp.presentation.Screen
 import com.example.twitchapp.presentation.viewmodel.TwitchViewModel
 import com.example.twitchapp.ui.components.TwitchItem
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun MainScreen(navController: NavController) {
@@ -44,7 +47,7 @@ fun MainScreen(navController: NavController) {
         Spacer(Modifier.height(8.dp))
 
         if (videos != null) {
-            VideoComposeList(listItems = videos)
+            VideoComposeList(listItems = videos, navController)
         }
     }
 }
@@ -68,23 +71,30 @@ fun ComposeList(
 
 @Composable
 fun VideoComposeList(
-    listItems: List<VideoModel>
+    listItems: List<VideoModel>,
+    navController: NavController
 ) {
     LazyColumn(
         contentPadding = PaddingValues(all = 8.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(listItems) { item ->
-            VideoItem(model = item)
+            VideoItem(model = item,
+                onClick = {
+                    val encodedUrl = URLEncoder.encode(item.url, StandardCharsets.UTF_8.toString())
+                    navController.navigate(Screen.DetailScreen.withArgs(encodedUrl))
+                }
+            )
         }
     }
 }
 
 @Composable
-fun VideoItem(model: VideoModel) {
+fun VideoItem(model: VideoModel, onClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(6.dp),
-        backgroundColor = Color.LightGray
+        backgroundColor = Color.LightGray,
+        modifier = Modifier.clickable { onClick.invoke() }
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
