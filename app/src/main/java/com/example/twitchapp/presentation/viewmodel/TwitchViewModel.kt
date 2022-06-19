@@ -22,22 +22,34 @@ class TwitchViewModel : ViewModel() {
     private val dataRepository = DataRepository()
     private val interactor = TwitchInteractor(dataRepository)
 
-    fun getTopGames() {
+    init {
         viewModelScope.launch {
             loading.value = true
             val token = interactor.getToken()?.token
             accessToken.value = token
 
+            // get top games
             val response = token?.let { interactor.getTopGames(it) }
             games.value = response?.data
+
+            // get videos for the first top game
+            if (token!= null) {
+                games.value?.first()?.id?.toLong()?.let { getVideos(token, it) }
+            }
+
             loading.value = false
         }
     }
 
-    fun getVideos(accessToken: String, gamesId: Long) {
+    fun getVideosByTopic(accessToken: String, gamesId: Long) {
         viewModelScope.launch {
             val videosResponse = interactor.getVideos(accessToken, gamesId)
             videos.value = videosResponse?.data
         }
+    }
+
+    private suspend fun getVideos(accessToken: String, gamesId: Long) {
+        val videosResponse = interactor.getVideos(accessToken, gamesId)
+        videos.value = videosResponse?.data
     }
 }
