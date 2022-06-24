@@ -1,4 +1,4 @@
-package com.example.twitchapp.models
+package com.example.twitchapp.models.data
 
 import com.squareup.moshi.Json
 

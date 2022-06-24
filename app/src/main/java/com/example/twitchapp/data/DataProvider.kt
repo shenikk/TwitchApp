@@ -1,8 +1,8 @@
 package com.example.twitchapp.data
 
-import com.example.twitchapp.models.GameModelResponse
-import com.example.twitchapp.models.TokenModelResponse
-import com.example.twitchapp.models.VideoResponse
+import com.example.twitchapp.models.data.GameModelResponse
+import com.example.twitchapp.models.data.TokenModelResponse
+import com.example.twitchapp.models.data.VideoResponse
 import retrofit2.Response
 
 interface DataProvider {

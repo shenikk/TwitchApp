@@ -14,11 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.twitchapp.models.Game
+import com.example.twitchapp.models.domain.GameEntity
 import com.example.twitchapp.presentation.GlideImage
 
 @Composable
-fun TwitchItem(model: Game, onClick: () -> Unit) {
+fun TwitchItem(model: GameEntity, onClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(6.dp),
         backgroundColor = Color.LightGray,

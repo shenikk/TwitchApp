@@ -20,8 +20,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.twitchapp.models.Game
-import com.example.twitchapp.models.VideoModel
+import com.example.twitchapp.models.data.VideoModel
+import com.example.twitchapp.models.domain.GameEntity
 import com.example.twitchapp.presentation.CircularInderterminateProgressBar
 import com.example.twitchapp.presentation.viewmodel.TwitchViewModel
 import com.example.twitchapp.ui.components.TwitchItem
@@ -55,7 +55,7 @@ fun MainScreen(navController: NavController) {
 
 @Composable
 fun ComposeList(
-    listItems: List<Game>,
+    listItems: List<GameEntity>,
     updateVideos: (Long) -> Unit
 ) {
     LazyRow {

@@ -1,6 +1,6 @@
 package com.example.twitchapp.data
 
-import com.example.twitchapp.models.VideoResponse
+import com.example.twitchapp.models.data.VideoResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
