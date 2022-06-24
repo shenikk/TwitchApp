@@ -29,6 +29,8 @@ import com.example.twitchapp.ui.components.TwitchItem
 @Composable
 fun MainScreen(navController: NavController) {
     val viewModel: TwitchViewModel = viewModel()
+
+    // FIX this place. There's something wrong
     val token = viewModel.accessToken.value
     val games = viewModel.games.value
     val loading = viewModel.loading.value

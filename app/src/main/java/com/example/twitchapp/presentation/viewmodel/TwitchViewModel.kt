@@ -9,6 +9,7 @@ import com.example.twitchapp.data.DataRepository
 import com.example.twitchapp.domain.TwitchInteractor
 import com.example.twitchapp.models.data.VideoModel
 import com.example.twitchapp.models.domain.GameEntity
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -27,16 +28,19 @@ class TwitchViewModel : ViewModel() {
     private val dataRepository = DataRepository()
     private val interactor = TwitchInteractor(dataRepository)
 
+    private val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        println("Oh no")
+        loading.value = false
+    }
+
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(handler) {
             loading.value = true
             val token = interactor.getToken()?.token
             accessToken.value = token
 
             // get top games
-            token?.let { interactor.getTopGames(it) }?.collect {
-                _games.value = it
-            }
+            getTopGames(token)
 
             // get videos for the first top game
             if (token != null) {
@@ -51,6 +55,12 @@ class TwitchViewModel : ViewModel() {
         viewModelScope.launch {
             val videosResponse = interactor.getVideos(accessToken, gamesId)
             videos.value = videosResponse?.data
+        }
+    }
+
+    private suspend fun getTopGames(token: String?) {
+        token?.let { interactor.getTopGames(it) }?.collect {
+            _games.value = it
         }
     }
 
