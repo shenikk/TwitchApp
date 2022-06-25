@@ -36,16 +36,14 @@ class TwitchViewModel : ViewModel() {
     init {
         viewModelScope.launch(handler) {
             loading.value = true
-            val token = interactor.getToken()?.token
+            val token = interactor.getToken().token
             accessToken.value = token
 
             // get top games
             getTopGames(token)
 
             // get videos for the first top game
-            if (token != null) {
-                _games.value?.first()?.id?.toLong()?.let { getVideos(token, it) }
-            }
+            _games.value?.first()?.id?.toLong()?.let { getVideos(token, it) }
 
             loading.value = false
         }
@@ -54,7 +52,7 @@ class TwitchViewModel : ViewModel() {
     fun getVideosByTopic(accessToken: String, gamesId: Long) {
         viewModelScope.launch {
             val videosResponse = interactor.getVideos(accessToken, gamesId)
-            videos.value = videosResponse?.data
+            videos.value = videosResponse.data
         }
     }
 
@@ -66,6 +64,6 @@ class TwitchViewModel : ViewModel() {
 
     private suspend fun getVideos(accessToken: String, gamesId: Long) {
         val videosResponse = interactor.getVideos(accessToken, gamesId)
-        videos.value = videosResponse?.data
+        videos.value = videosResponse.data
     }
 }

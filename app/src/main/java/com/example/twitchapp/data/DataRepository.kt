@@ -6,7 +6,8 @@ import com.example.twitchapp.models.domain.GameEntity
 
 class DataRepository {
 
-    suspend fun getToken(): TokenModelResponse? = NetworkLayer.apiClient.getAccessToken().body()
+    suspend fun getToken(): TokenModelResponse =
+        NetworkLayer.apiClient.getAccessToken().body() ?: throw GameException()
 
     suspend fun getTopGames(token: String): List<GameEntity> {
         val response = NetworkLayer.apiClient.getTopGames(token).body()
@@ -17,6 +18,6 @@ class DataRepository {
         }
     }
 
-    suspend fun getVideos(accessToken: String, gamesId: Long): VideoResponse? =
-        NetworkLayer.apiClient.getVideos(accessToken, gamesId).body()
+    suspend fun getVideos(accessToken: String, gamesId: Long): VideoResponse =
+        NetworkLayer.apiClient.getVideos(accessToken, gamesId).body() ?: throw GameException()
 }
