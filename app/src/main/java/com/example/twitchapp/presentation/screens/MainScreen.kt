@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -30,28 +31,24 @@ import com.example.twitchapp.ui.components.TwitchItem
 fun MainScreen(navController: NavController) {
     val viewModel: TwitchViewModel = viewModel()
 
-    // FIX this place. There's something wrong
-    val token = viewModel.accessToken.value
-    val games = viewModel.games.value
-    val loading = viewModel.loading.value
-    val videos = viewModel.videos.value
+    // collectAsState() is important! Every time new values are sent to StateFlow,
+    // the returned state will be updated
+    val state = viewModel.viewState.collectAsState()
 
-    CircularInderterminateProgressBar(loading)
+    when(state.value.result) {
+        LoadingResult.Loading -> CircularInderterminateProgressBar(true)
+        LoadingResult.Success -> CircularInderterminateProgressBar(false)
+        LoadingResult.Error -> println("Something went wrong")
+    }
 
     Column {
-        if (games != null) {
-            ComposeList(listItems = games) {
-                if (token != null) {
-                    viewModel.getVideosByTopic(token, it)
-                }
-            }
+        ComposeList(listItems = state.value.games) {
+            viewModel.getVideosByTopic(it)
         }
 
         Spacer(Modifier.height(8.dp))
 
-        if (videos != null) {
-            VideoComposeList(listItems = videos, navController)
-        }
+        VideoComposeList(listItems = state.value.videos, navController)
     }
 }
 
