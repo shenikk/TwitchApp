@@ -11,8 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +25,8 @@ import com.example.twitchapp.models.domain.GameEntity
 import com.example.twitchapp.presentation.CircularInderterminateProgressBar
 import com.example.twitchapp.presentation.viewmodel.TwitchViewModel
 import com.example.twitchapp.ui.components.TwitchItem
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun MainScreen(navController: NavController) {
@@ -42,18 +43,37 @@ fun MainScreen(navController: NavController) {
     }
 
     Column {
-        ComposeList(listItems = state.value.games) {
+        GameList(listItems = state.value.games) {
             viewModel.getVideosByTopic(it)
         }
 
         Spacer(Modifier.height(8.dp))
 
+        RefreshingVideoList(viewModel = viewModel, state = state, navController = navController)
+    }
+}
+
+@Composable
+fun RefreshingVideoList(viewModel: TwitchViewModel, state: State<MainViewState>, navController: NavController) {
+    var refreshing by remember { mutableStateOf(false) }
+
+    LaunchedEffect(refreshing) {
+        if (refreshing) {
+            viewModel.updateVideosByTopic()
+            refreshing = false
+        }
+    }
+
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = refreshing),
+        onRefresh = { refreshing = true }
+    ) {
         VideoComposeList(listItems = state.value.videos, navController)
     }
 }
 
 @Composable
-fun ComposeList(
+fun GameList(
     listItems: List<GameEntity>,
     updateVideos: (Long) -> Unit
 ) {

@@ -28,6 +28,8 @@ class TwitchViewModel : ViewModel() {
     private val _viewState = MutableStateFlow(MainViewState())
     val viewState = _viewState.asStateFlow()
 
+    private var _topicId: MutableState<Long> = mutableStateOf(0L)
+
     init {
         viewModelScope.launch(handler) {
             val token = interactor.getToken().token
@@ -41,15 +43,24 @@ class TwitchViewModel : ViewModel() {
 
     fun getVideosByTopic(gamesId: Long) {
         viewModelScope.launch {
+            _topicId.value = gamesId
             val games = viewState.value.games
-            val videos = interactor.getVideos(accessToken.value, gamesId)
+            val videos = interactor.getVideos(accessToken.value, _topicId.value)
+            updateViewState(games, videos.data)
+        }
+    }
 
+    fun updateVideosByTopic() {
+        viewModelScope.launch {
+            val games = viewState.value.games
+            val videos = interactor.getVideos(accessToken.value, _topicId.value)
             updateViewState(games, videos.data)
         }
     }
 
     private suspend fun getVideos(token: String, games: List<GameEntity>) {
         val videos = interactor.getVideos(token, games.first().id.toLong())
+        _topicId.value = games.first().id.toLong()
 
         updateViewState(games, videos.data)
     }
